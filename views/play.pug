@@ -1,0 +1,20 @@
+doctype html
+html
+    head
+        title Werewolf by Poon Nguyen
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(src="/socket.io/socket.io.js")
+        script(src="/javascripts/play.js")
+    body.bg-dark.text-light
+        .container-fluid
+            .row
+                .col-sm-4
+                    .display-4 Werewolf Online
+                    p.float-right by Poon Nguyen
+                .col-sm
+                    h1.float-right
+                        span.badge.badge-light#name=name
+            hr
+
+        
+        

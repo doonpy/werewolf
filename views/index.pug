@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title Werewolf by Poon Nguyen
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="https://kit.fontawesome.com/3f47eb379d.js")
+    script(src="/javascripts/index.js")
+
+
+  body.bg-dark.text-light
+    if msg
+      .alert.alert-danger
+        i.fas.fa-exclamation-triangle
+        |&nbsp;#{msg}
+    .container-fluid
+      .row
+        .col.text-center
+          .display-2 Werewolf Online
+          p by Poon Nguyen
+      .row.mt-5
+        form.col.d-flex.justify-content-center(method="POST", action="/play")
+          .input-group.input-group-lg.w-50
+            input.form-control(type="text", name="name", placeholder="What's your name?", aria-label="What's your name?", aria-describedby="basic-addon2", required)
+            .input-group-append
+              button.btn.btn-outline-light(type="submit") Let's go
+        
+    
