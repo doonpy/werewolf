@@ -1,5 +1,6 @@
 
 var player = new Array();
+var playerCount = 0;
 
 module.exports.server = (server) => {
     const io = require("socket.io")(server);
@@ -7,10 +8,12 @@ module.exports.server = (server) => {
     io.on("connection", (socket) => {
         console.log("=> Someone just connected");
 
+        playerCount++;
+        io.emit("playerCount",playerCount);
+
         //login
         socket.on("checkIn", name => {
             player.push({ name: name, idSocket: socket.id });
-            console.log(player);
         })
 
         //send msg
@@ -22,7 +25,8 @@ module.exports.server = (server) => {
         socket.on("disconnect", () => {
             console.log("=> Someone just disconnected");
             player.splice(player.findIndex(p => { return p.socketId == socket.id }), 1);
-            console.log(player);
+            playerCount--;
+            io.emit("playerCount",playerCount);
         })
     })
 };

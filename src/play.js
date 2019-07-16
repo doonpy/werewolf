@@ -33,7 +33,7 @@ $(document).ready(() => {
             sendMsg();
         }
     });
-    
+
     $(`input[name="msg"]`).keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
@@ -45,5 +45,10 @@ $(document).ready(() => {
     socket.on("recMsg", data => {
         let child = `<div class="px-2"><b>[${moment(new Date()).format("HH:MM:ss")}] ${data.name}:</b> ${data.msg}</div>`;
         $("#chatbox").prepend(child);
+    });
+
+    //update player count
+    socket.on("playerCount", amount => {
+        $("#playercount").text(`${amount}/6`);
     });
 });
