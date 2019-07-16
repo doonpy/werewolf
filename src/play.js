@@ -7,6 +7,14 @@ $(document).ready(() => {
     let name = $("#name").text();
     socket.emit("checkIn", name);
 
+    //loop handle if socket server drop
+    setInterval(() => {
+        if (socket.connected)
+            return;
+        alert("Connect error!");
+        window.location.replace(location.origin);
+    }, 10000)
+
     //send messages
     var sendMsg = () => {
         let msg = $(`input[name="msg"]`).val();
