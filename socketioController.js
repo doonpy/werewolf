@@ -1,7 +1,12 @@
 const host = require("./src/game/host");
 var player = new Array();
 var playerCount = 0;
-const MAX_PLAYER = 6;
+const MAX_PLAYER = 2;
+const gameStatusList = {
+    init: 0,
+    playing: 1
+};
+var GAME_STATUS = gameStatusList.init;
 
 
 module.exports.server = (server) => {
@@ -19,8 +24,9 @@ module.exports.server = (server) => {
             player.push({ name: name, idSocket: socket.id });
             //check enough player
             if (playerCount == MAX_PLAYER) {
-                host.gameInit(player);
-                // io.emit("gameStart");
+                GAME_STATUS = gameStatusList.playing;
+                let playerChar = host.gameInit(player);
+                io.emit("gameInit", playerChar);
             }
         })
 
@@ -53,3 +59,5 @@ module.exports.isFull = () => {
 }
 
 module.exports.maxPlayer = MAX_PLAYER;
+
+module.exports.gameStatus = GAME_STATUS;

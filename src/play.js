@@ -60,4 +60,17 @@ $(document).ready(() => {
     socket.on("playerCount", amount => {
         $("#playercount").text(`Now: ${amount}`);
     });
+
+    //initiate game
+    socket.on("gameInit", data => {
+        let index = data.findIndex(p => { return p.idSocket == socket.id });
+        let character = data[index];
+        let gameZone = $("#gamezone");
+        let characterChild = `<div class="display-4">You are <b>${character.character.name}</b></div>`;
+        let desChild = `<p>${character.character.des}</p>`;
+
+        gameZone.empty();
+        gameZone.append(characterChild);
+        gameZone.append(desChild);
+    });
 });

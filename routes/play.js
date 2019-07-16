@@ -24,6 +24,11 @@ router.post("/", (req, res, next) => {
     res.render("index", { msg: "Enough players!" });
     return;
   }
+  console.log(socketioController.gameStatus);
+  if (require('../socketioController').gameStatus == 1) {
+    res.render("index", { msg: "Game is playing!" });
+    return;
+  }
 
   res.redirect(`/play/${req.body.name}`);
 });

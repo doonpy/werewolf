@@ -1,13 +1,9 @@
 const characters = require("./characters.json");
-const gameStatusList = {
-    init: 0,
-    playing: 1
-};
-var GAME_STATUS = gameStatusList.init;
 var playerChar = new Array();
 
 module.exports.gameInit = playerList => {
     randomCharacter(playerList);
+    return playerChar;
 };
 
 //random character with each player
@@ -21,7 +17,8 @@ var randomCharacter = (playerList) => {
     playerChar = playerList;
     playerChar.forEach(p => {
         let index = Math.floor(Math.random() * ((idChar.length - 1) - 0) + 0);
-        p.idChar = idChar[index];
+        p.character = characters[characters.findIndex(c => { return c.id == idChar[index] })];
+        p.status = 1; //1: live, 0: die
         idChar.splice(index, 1);
     });
 };
