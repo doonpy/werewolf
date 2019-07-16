@@ -7,10 +7,18 @@ module.exports.server = (server) => {
     io.on("connection", (socket) => {
         console.log("=> Someone just connected");
 
+        //login
         socket.on("checkIn", name => {
             player.push({ name: name, idSocket: socket.id });
             console.log(player);
         })
+
+        //send msg
+        socket.on("sendMsg", data => {
+            io.emit("recMsg", { name: data.name, msg: data.msg });
+        });
+
+
         socket.on("disconnect", () => {
             console.log("=> Someone just disconnected");
             player.splice(player.findIndex(p => { return p.socketId == socket.id }), 1);

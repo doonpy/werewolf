@@ -13,8 +13,18 @@ html
                     p.float-right by Poon Nguyen
                 .col-sm
                     h1.float-right
-                        span.badge.badge-light#name=name
+                        span.badge.badge-light.mr-3#name=name
+                        a.btn.btn-outline-danger.btn-sm(href="/") Back
             hr
-
+        
+        .container-fluid
+            .row
+                .col-sm-3
+                    .input-group.mb-3
+                            input.form-control(type="text", name="msg", placeholder="Chat here", aria-label="Chat here", aria-describedby="basic-addon2", required)
+                            .input-group-append
+                                button#sendmsg.btn.btn-outline-light(type="submit") Send
+                    #chatbox.bg-light.text-dark.px-2(style="height:60vh; overflow-y: scroll;")
+                        
         
         
