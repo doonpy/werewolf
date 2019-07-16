@@ -57,6 +57,6 @@ $(document).ready(() => {
 
     //update player count
     socket.on("playerCount", amount => {
-        $("#playercount").text(`${amount}/6`);
+        $("#playercount").text(`Now: ${amount}`);
     });
 });

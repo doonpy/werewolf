@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+var socketioController = require('../socketioController');
 
 /* GET users listing. */
 router.post("/", (req, res, next) => {
@@ -14,10 +15,16 @@ router.post("/", (req, res, next) => {
     return;
   }
 
-  if (!require('../socketioController').checkExist(req.body.name)) {
+  if (!socketioController.checkExist(req.body.name)) {
     res.render("index", { msg: "Name has already existed!" });
     return;
   };
+
+  if (socketioController.isFull()) {
+    res.render("index", { msg: "Enough players!" });
+    return;
+  }
+
   res.redirect(`/play/${req.body.name}`);
 });
 
@@ -31,7 +38,10 @@ router.get("/:name", (req, res, next) => {
     return;
   }
 
-  res.render("play", { name: req.params.name });
+  res.render("play", {
+    name: req.params.name,
+    maxPlayer: socketioController.maxPlayer
+  });
 });
 
 module.exports = router;
