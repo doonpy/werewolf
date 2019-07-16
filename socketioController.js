@@ -1,5 +1,7 @@
 
 var player = new Array();
+var playerCount = 0;
+const MAX_PLAYER = 2;
 
 module.exports.server = (server) => {
     const io = require("socket.io")(server);
@@ -7,10 +9,13 @@ module.exports.server = (server) => {
     io.on("connection", (socket) => {
         console.log("=> Someone just connected");
 
+        //count ++
+        playerCount++;
+        io.emit("playerCount", playerCount);
+
         //login
         socket.on("checkIn", name => {
             player.push({ name: name, idSocket: socket.id });
-            console.log(player);
         })
 
         //send msg
@@ -18,11 +23,12 @@ module.exports.server = (server) => {
             io.emit("recMsg", { name: data.name, msg: data.msg });
         });
 
-
+        //handle when user disconnect
         socket.on("disconnect", () => {
             console.log("=> Someone just disconnected");
             player.splice(player.findIndex(p => { return p.socketId == socket.id }), 1);
-            console.log(player);
+            playerCount--;
+            io.emit("playerCount", playerCount);
         })
     })
 };
@@ -33,3 +39,11 @@ module.exports.checkExist = (name) => {
         return false;
     return true;
 }
+
+module.exports.isFull = () => {
+    if (player.length < MAX_PLAYER)
+        return false;
+    return true;
+}
+
+module.exports.maxPlayer = MAX_PLAYER;
