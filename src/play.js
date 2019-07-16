@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css"
 const $ = require("jquery");
 const moment = require("moment");
+const INTERVAL_SECONDS = 60;
 
 $(document).ready(() => {
     const socket = io({ reconnection: false });
@@ -13,7 +14,7 @@ $(document).ready(() => {
             return;
         alert("Connect error!");
         window.location.replace(location.origin);
-    }, 10000)
+    }, 1000 * INTERVAL_SECONDS)
 
     //send messages
     var sendMsg = () => {

@@ -1,7 +1,8 @@
-
+const host = require("./src/game/host");
 var player = new Array();
 var playerCount = 0;
-const MAX_PLAYER = 2;
+const MAX_PLAYER = 6;
+
 
 module.exports.server = (server) => {
     const io = require("socket.io")(server);
@@ -16,6 +17,11 @@ module.exports.server = (server) => {
         //login
         socket.on("checkIn", name => {
             player.push({ name: name, idSocket: socket.id });
+            //check enough player
+            if (playerCount == MAX_PLAYER) {
+                host.gameInit(player);
+                // io.emit("gameStart");
+            }
         })
 
         //send msg
@@ -29,7 +35,7 @@ module.exports.server = (server) => {
             player.splice(player.findIndex(p => { return p.socketId == socket.id }), 1);
             playerCount--;
             io.emit("playerCount", playerCount);
-        })
+        });
     })
 };
 
