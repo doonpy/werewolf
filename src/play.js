@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css"
 const $ = require("jquery");
 const moment = require("moment");
+const INTERVAL_SECONDS = 60;
 
 $(document).ready(() => {
     const socket = io({ reconnection: false });
@@ -13,7 +14,7 @@ $(document).ready(() => {
             return;
         alert("Connect error!");
         window.location.replace(location.origin);
-    }, 10000)
+    }, 1000 * INTERVAL_SECONDS)
 
     //send messages
     var sendMsg = () => {
@@ -58,5 +59,18 @@ $(document).ready(() => {
     //update player count
     socket.on("playerCount", amount => {
         $("#playercount").text(`Now: ${amount}`);
+    });
+
+    //initiate game
+    socket.on("gameInit", data => {
+        let index = data.findIndex(p => { return p.idSocket == socket.id });
+        let character = data[index];
+        let gameZone = $("#gamezone");
+        let characterChild = `<div class="display-4">You are <b>${character.character.name}</b></div>`;
+        let desChild = `<p>${character.character.des}</p>`;
+
+        gameZone.empty();
+        gameZone.append(characterChild);
+        gameZone.append(desChild);
     });
 });
